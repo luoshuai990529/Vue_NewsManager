@@ -54,7 +54,7 @@ export default {
           });
           localStorage.setItem("token", res.data.data.token);
           localStorage.setItem("userId", res.data.data.user.id);
-          this.$router.push("/home");
+          this.$router.push("/home/postlist");
         } else {
           this.$message({
             message: "账号或密码错误",

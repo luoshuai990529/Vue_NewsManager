@@ -2,11 +2,14 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from "@/views/Login.vue"
+import EditeInfo from "@/views/EditInfo.vue"
+import PostList from "@/views/PostList.vue"
+
 Vue.use(VueRouter)
 
 const routes = [{
     path: "/",
-    redirect: "/home"
+    redirect: "/home/postlist"
   },
   {
     path: '/home',
@@ -17,6 +20,23 @@ const routes = [{
     meta: {
       needAuth: true
     },
+    children: [{
+      path: "editinfo",
+      components: {
+        EditInfoTemp: EditeInfo
+      },
+      meta: {
+        needAuth: true
+      },
+    }, {
+      path: "postlist",
+      components: {
+        PostListTemp: PostList
+      },
+      meta: {
+        needAuth: true
+      },
+    }, ]
   },
   {
     path: '/login',

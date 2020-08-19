@@ -12,19 +12,24 @@
           text-color="#fff"
           active-text-color="#ffd04b"
         >
-          <el-menu-item index="1">
+          <el-menu-item index="1" @click="showPostPage">
             <i class="el-icon-menu"></i>
             <span slot="title">文章列表</span>
           </el-menu-item>
 
-          <el-menu-item index="2">
+          <el-menu-item index="2" @click="showEditPage">
             <i class="el-icon-setting"></i>
             <span slot="title">发布文章</span>
           </el-menu-item>
         </el-menu>
       </el-aside>
       <!-- 内容列表显示 -->
-      <el-main>Main</el-main>
+      <el-main>
+        <!-- 文章列表路由 -->
+        <router-view name="PostListTemp"></router-view>
+        <!-- 编辑发布文章路由 -->
+        <router-view name="EditInfoTemp"></router-view>
+      </el-main>
     </el-container>
   </div>
 </template>
@@ -35,6 +40,20 @@ export default {
     return {
       userId: JSON.parse(localStorage.getItem("userId")),
     };
+  },
+  methods: {
+    // 显示编辑页面
+    showEditPage() {
+      if (this.$route.fullPath != "/home/editinfo") {
+        this.$router.push("/home/editinfo");
+      }
+    },
+    // 显示文章列表页面
+    showPostPage() {
+      if (this.$route.fullPath != "/home/postlist") {
+        this.$router.push("/home/postlist");
+      }
+    },
   },
 };
 </script>
