@@ -1,32 +1,58 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div id="appindex">
+    <router-view />
   </div>
 </template>
 
 <style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+  margin: 0px;
+  padding: 0px;
+
+  /* 1.移动端元素都是内减模型 */
+  // box-sizing: border-box;
 }
 
-#nav {
-  padding: 30px;
+body {
+  /* 2.移动端字体一般14px  / 12px */
+  font-size: 14px;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+li {
+  list-style: none;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+img {
+  vertical-align: middle;
+  /* 图片居中 */
+}
+
+a {
+  color: #000;
+  /* 取消a标签默认下划线 */
+  text-decoration: none;
+}
+
+input {
+  border: 0 none;
+  outline-style: none;
+  /*取消内边框*/
+}
+
+/* 清除浮动，解决margin-top塌陷 */
+.clearfix:after {
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.celarfix {
+  zoom: 1;
+}
+
+.appindex {
+  margin: auto;
 }
 </style>
