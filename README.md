@@ -1,4 +1,4 @@
-# newsmanager
+# news后台管理页面
 
 ## Project setup
 ```
