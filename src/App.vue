@@ -1,9 +1,14 @@
 <template>
   <div id="appindex">
-    <router-view />
+    <!-- 首页 -->
+    <router-view name="HomeTemp" />
+    <!-- 登录路由 -->
+    <router-view name="LoginTemp" />
   </div>
 </template>
-
+<script>
+export default {};
+</script>
 <style lang="less">
 * {
   margin: 0px;
@@ -53,6 +58,7 @@ input {
 }
 
 .appindex {
+  position: relative;
   margin: auto;
 }
 </style>
