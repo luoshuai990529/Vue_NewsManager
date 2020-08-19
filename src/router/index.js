@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from "@/views/Login.vue"
-import EditeInfo from "@/views/EditInfo.vue"
+import PubArticle from "@/views/PubArticle.vue"
 import PostList from "@/views/PostList.vue"
 
 Vue.use(VueRouter)
@@ -23,7 +23,7 @@ const routes = [{
     children: [{
       path: "editinfo",
       components: {
-        EditInfoTemp: EditeInfo
+        EditInfoTemp: PubArticle
       },
       meta: {
         needAuth: true

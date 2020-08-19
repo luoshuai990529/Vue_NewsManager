@@ -30,6 +30,18 @@
         </el-table-column>
       </el-table>
     </div>
+    <!-- 分页组件 -->
+    <div class="pagenation">
+      <el-pagination
+        layout="total, sizes, prev, pager, next, jumper"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :page-sizes="pagesizes"
+        :page-size="cursize"
+        :total="totalsize"
+        :current-page="curpage"
+      ></el-pagination>
+    </div>
   </div>
 </template>
 
@@ -97,4 +109,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.pagenation {
+  margin: 10px 0;
+}
 </style>

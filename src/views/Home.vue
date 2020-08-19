@@ -1,7 +1,15 @@
 <template>
   <div class="home">
     <el-header>
-      <h2>News后台管理系统</h2>
+      <div class="header">
+        <div class="htitle">
+          <h2>News后台管理系统</h2>
+        </div>
+        <div class="userMsg">
+          <img :src="$axios.defaults.baseURL+headImg" alt />
+          <span>{{username}}</span>
+        </div>
+      </div>
     </el-header>
     <el-container>
       <!-- 左侧菜单栏 -->
@@ -39,6 +47,8 @@ export default {
   data() {
     return {
       userId: JSON.parse(localStorage.getItem("userId")),
+      headImg: "",
+      username: "",
     };
   },
   methods: {
@@ -55,6 +65,17 @@ export default {
       }
     },
   },
+  mounted() {
+    // 加载用户信息
+    this.$axios({
+      url: "/user/" + localStorage.getItem("userId"),
+      method: "get",
+    }).then((res) => {
+      console.log(res.data.data);
+      this.headImg = res.data.data.head_img;
+      this.username = res.data.data.nickname;
+    });
+  },
 };
 </script>
 
@@ -70,6 +91,7 @@ export default {
     color: #fff;
     text-align: center;
     line-height: 60px;
+    padding: 0;
   }
 
   .el-aside {
@@ -87,6 +109,28 @@ export default {
 
   .el-container {
     min-height: 100vh;
+  }
+  .header {
+    display: flex;
+
+    .htitle {
+      width: 200px;
+    }
+
+    .userMsg {
+      text-align: right;
+      padding-right: 40px;
+      flex: 1;
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+      span{
+        vertical-align: middle;
+        margin-left: 10px;
+      }
+    }
   }
 }
 </style>

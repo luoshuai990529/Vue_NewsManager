@@ -136,6 +136,7 @@ export default {
   border: 1px solid transparent;
   background: rgb(2, 144, 200);
   //   box-shadow:5px 5px 12px 12px #eee;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   min-width: 500px;
   max-width: 600px;
   width: 50%;
