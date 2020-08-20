@@ -224,6 +224,9 @@ export default {
         this.checkList = this.form.categories.map((item) => {
           return item.id;
         });
+          // 兼容旧的测试数据, 由于带有富文本框不支持的 div 标签
+        // 所以需要替换成 p
+        this.form.content = this.form.content.replace(/div/g, 'p')
       });
     },
   },
