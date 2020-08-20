@@ -6,6 +6,7 @@
       </el-form-item>
       <!-- 富文本编辑器 -->
       <el-form-item label="内容">
+        <!-- useCustomImageHandler为true：禁止富文本框自动将图片转成 base64 -->
         <VueEditor v-model="form.content" :useCustomImageHandler="true" @image-added="imgUpload" />
       </el-form-item>
       <!-- 封面图片上传 -->
@@ -77,7 +78,7 @@ export default {
   watch: {
     // 监听选中的栏目列表变化，改造数据 赋值给categories
     checkList() {
-      // console.log(this.checkList);
+      console.log(this.checkList);
       this.form.categories = this.checkList.map((el) => {
         return {
           id: el,
@@ -99,22 +100,42 @@ export default {
         return;
       }
       this.loading = true;
-      // 发送请求
-      this.$axios({
-        url: "/post",
-        method: "post",
-        data: this.form,
-      }).then((res) => {
-        console.log(res);
-        if ((res.data.message = "文章发布成功")) {
-          this.$message({
-            message: "发布成功",
-            type: "success",
-          });
-          this.$router.push("/home/postlist");
-        }
-        this.loading = false;
-      });
+      // 判断是否带参数，带了参数就是修改，没带就是发布
+      if (this.$route.query.id) {
+        console.log("带了参数，修改文章信息");
+        this.$axios({
+          url: "/post_update/" + this.$route.query.id,
+          method: "post",
+          data: this.form,
+        }).then((res) => {
+          console.log(res.data);
+          if (res.data.message == "文章编辑成功") {
+            this.$message({
+              message: "文章编辑成功",
+              type: "success",
+            });
+            this.$router.push("/home/postlist");
+          }
+          this.loading = false;
+        });
+      } else {
+        // 发送请求
+        this.$axios({
+          url: "/post",
+          method: "post",
+          data: this.form,
+        }).then((res) => {
+          console.log(res);
+          if ((res.data.message = "文章发布成功")) {
+            this.$message({
+              message: "发布成功",
+              type: "success",
+            });
+            this.$router.push("/home/postlist");
+          }
+          this.loading = false;
+        });
+      }
     },
     //处理富文本框自定义上传图片逻辑 点击上传后返回4个参数
     // file 选中的图片
@@ -164,24 +185,56 @@ export default {
       // fileList 文件列表
       // 1. 需要将 file 文件放入 this.form.cover 数组里面
       // 2. 我们的封面需要 id 这个 id 是从服务器传回来的
-      console.log(res.data);
       file.id = res.data.id;
       this.form.cover.push(file);
       console.log("上传封面成功");
+      console.log(this.form.cover);
+    },
+    // 加载栏目信息
+    loadCategorys() {
+      this.$axios({
+        url: "/category",
+        method: "get",
+      }).then((res) => {
+        // console.log(res.data.data);
+        // 过滤到头条
+        this.categoryList = res.data.data.filter((item) => {
+          return item.id != 0 && item.id != 999;
+        });
+      });
+    },
+    // 编辑页面渲染数据方法
+    loadPost() {
+      this.$axios({
+        url: "/post/" + this.$route.query.id,
+        method: "get",
+      }).then((res) => {
+        console.log(res.data.data);
+        this.form = res.data.data;
+        // 数据回显还需要改造数据才能正常显示
+        this.form.cover.forEach((item) => {
+          // 修改基地址 显示图片
+          item.url = this.$axios.defaults.baseURL + item.url;
+          // 修改它的uid 如果不修改那么他们的uid都是1就会报错
+          item.uid = item.id;
+        });
+        // 将type转为string类型
+        this.form.type = this.form.type + "";
+        // 修改checkList的数据格式，改为只有id的数组
+        this.checkList = this.form.categories.map((item) => {
+          return item.id;
+        });
+      });
     },
   },
   mounted() {
     // 加载所有栏目信息,除了关注栏
-    this.$axios({
-      url: "/category",
-      method: "get",
-    }).then((res) => {
-      console.log(res.data.data);
-      // 过滤到头条
-      this.categoryList = res.data.data.filter((item) => {
-        return item.id != 0 && item.id != 999;
-      });
-    });
+    this.loadCategorys();
+    // 看看进入页面是否带了参数，如果带了参数就渲染编辑页
+    if (this.$route.query.id) {
+      // console.log(this.$route.query.id);
+      this.loadPost();
+    }
   },
 };
 </script>

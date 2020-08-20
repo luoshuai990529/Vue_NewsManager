@@ -26,7 +26,7 @@
           <template slot-scope="scoped">{{scoped.row.user.nickname}}</template>
         </el-table-column>
         <el-table-column prop="operate" label="操作">
-          <el-button type="primary">编辑</el-button>
+          <el-button type="primary" slot-scope="scoped" @click="editPostInfo(scoped.row.id)">编辑</el-button>
         </el-table-column>
       </el-table>
     </div>
@@ -74,12 +74,14 @@ export default {
     },
   },
   methods: {
+    // 改变每页显示多少条处理函数
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.cursize = val;
       this.curpage = 1;
       this.loadPost();
     },
+    // 翻页触发的函数
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
       this.curpage = val;
@@ -98,6 +100,17 @@ export default {
         console.log(res.data.data);
         this.tableData = res.data.data;
         this.totalsize = res.data.total;
+      });
+    },
+    // 编辑文章信息方法
+    editPostInfo(postId) {
+      console.log("编辑的文章id为：" + postId);
+      // 跳转到发布文章页面，并将id传过去
+      this.$router.push({
+        path: "/home/editinfo",
+        query: {
+          id: postId,
+        },
       });
     },
   },

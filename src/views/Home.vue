@@ -16,9 +16,10 @@
       <el-aside width="200px">
         <el-menu
           class="el-menu-vertical-demo"
-          background-color="#333"
+          background-color="#000000"
           text-color="#fff"
           active-text-color="#ffd04b"
+          :default-active="isIndex?'1':'2'"
         >
           <el-menu-item index="1" @click="showPostPage">
             <i class="el-icon-menu"></i>
@@ -49,6 +50,7 @@ export default {
       userId: JSON.parse(localStorage.getItem("userId")),
       headImg: "",
       username: "",
+      isIndex: false,
     };
   },
   methods: {
@@ -75,6 +77,15 @@ export default {
       this.headImg = res.data.data.head_img;
       this.username = res.data.data.nickname;
     });
+  },
+  // 监听路由
+  watch: {
+    "$route.path": function (curPath) {
+      console.log(curPath);
+      curPath == "/home/postlist"
+        ? (this.isIndex = true)
+        : (this.isIndex = false);
+    },
   },
 };
 </script>
@@ -126,7 +137,7 @@ export default {
         height: 50px;
         border-radius: 50%;
       }
-      span{
+      span {
         vertical-align: middle;
         margin-left: 10px;
       }

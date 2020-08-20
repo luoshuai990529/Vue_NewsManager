@@ -17,6 +17,7 @@ Vue.prototype.$axios = axios;
 // 拦截所有的路由跳转，进行校验
 // 只有校验通过才放行
 router.beforeEach((to, from, next) => {
+  
   if (to.meta.needAuth) {
     if (localStorage.getItem("token")) {
       next();
