@@ -6,7 +6,7 @@
           <h2>News后台管理系统</h2>
         </div>
         <div class="userMsg">
-          <img :src="$axios.defaults.baseURL+headImg" alt />
+          <img v-if="headImg" :src="$axios.defaults.baseURL+headImg" alt />
           <span>{{username}}</span>
         </div>
       </div>
